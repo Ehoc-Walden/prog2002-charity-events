@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="View full charity event details, fundraising progress and ticket information.">
+  <title>Event details | Common Ground Collective</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/config.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/layout.js" defer></script>
+  <script src="js/event.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="site-alert" role="status" aria-live="polite" data-site-alert hidden></div>
+
+  <header class="site-header site-header-solid" data-site-header>
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="Common Ground Collective home">
+        <img src="assets/common-ground-mark.svg" alt="" width="44" height="44">
+        <span class="brand-copy"><strong>Common Ground</strong><small>Collective</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+        <span class="nav-toggle-label">Menu</span>
+        <span class="nav-toggle-icon" aria-hidden="true"><i></i><i></i></span>
+      </button>
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+        <a href="index.html">Home</a>
+        <a href="search.html">Find an event</a>
+        <a href="index.html#impact">Our impact</a>
+        <a href="index.html#how-it-works">How it works</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" data-event-page>
+    <div class="event-loading shell" id="event-loading" aria-live="polite">
+      <div class="loading-orb" aria-hidden="true"></div>
+      <p>Opening event details…</p>
+    </div>
+
+    <div id="event-error" class="event-error shell" hidden>
+      <p class="eyebrow">Event unavailable</p>
+      <h1>We could not open this event.</h1>
+      <p id="event-error-message">Check the link and try again.</p>
+      <a class="button button-dark" href="search.html">Return to event search</a>
+    </div>
+
+    <article id="event-content" hidden>
+      <section class="event-hero">
+        <div class="shell">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="index.html">Home</a><span aria-hidden="true">/</span><a href="search.html">Events</a><span aria-hidden="true">/</span><span id="breadcrumb-event">Event</span>
+          </nav>
+          <div class="event-hero-grid">
+            <div class="event-hero-copy">
+              <div class="event-meta" id="event-meta"></div>
+              <h1 id="event-title">Event title</h1>
+              <p class="event-summary" id="event-summary"></p>
+              <div class="event-quick-facts" id="event-quick-facts"></div>
+            </div>
+            <div class="event-cover-wrap">
+              <img id="event-cover" class="event-cover" src="" alt="">
+              <div class="cover-caption"><span id="cover-category">Fundraiser</span><span id="cover-date">Date</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="event-detail-section section">
+        <div class="shell event-detail-grid">
+          <div class="event-story">
+            <section class="story-block">
+              <p class="eyebrow">The purpose</p>
+              <h2 id="event-purpose"></h2>
+              <p class="story-lede" id="event-description"></p>
+            </section>
+
+            <section class="story-block">
+              <p class="eyebrow">What to know</p>
+              <h2>Event highlights</h2>
+              <div class="highlight-grid" id="event-highlights"></div>
+            </section>
+
+            <section class="story-block organiser-block">
+              <div>
+                <p class="eyebrow">Organised by</p>
+                <h2 id="event-organiser">Organisation</h2>
+                <p id="event-organiser-mission"></p>
+              </div>
+              <div class="organiser-monogram" id="organiser-monogram" aria-hidden="true">CG</div>
+            </section>
+          </div>
+
+          <aside class="registration-column">
+            <div class="registration-card" id="registration-card">
+              <div class="registration-topline"><span>Registration</span><span class="availability-dot"><i aria-hidden="true"></i>Open</span></div>
+              <p class="ticket-label">Entry / ticket</p>
+              <p class="ticket-price" id="ticket-price">—</p>
+              <p class="ticket-note" id="ticket-note"></p>
+              <button class="button button-primary button-full" type="button" id="register-button">Register for this event</button>
+              <p class="registration-disclaimer">Registration is a demonstration feature in Assessment 2. No payment will be taken.</p>
+            </div>
+
+            <div class="progress-card">
+              <div class="progress-heading">
+                <div><p class="kicker">Fundraising progress</p><h2 id="progress-percent">0%</h2></div>
+                <span id="progress-status">Just getting started</span>
+              </div>
+              <div class="progress-track" role="progressbar" aria-label="Fundraising progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-track"><span id="progress-bar"></span></div>
+              <div class="progress-amounts"><p><span>Raised</span><strong id="raised-amount">—</strong></p><p><span>Goal</span><strong id="goal-amount">—</strong></p></div>
+            </div>
+
+            <div class="event-info-card">
+              <h2>Event details</h2>
+              <dl id="event-info-list"></dl>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <dialog class="construction-dialog" id="construction-dialog" aria-labelledby="construction-title">
+    <form method="dialog">
+      <button class="dialog-close" type="submit" aria-label="Close dialog">×</button>
+      <div class="dialog-icon" aria-hidden="true">✦</div>
+      <p class="kicker">Coming in Assessment 3</p>
+      <h2 id="construction-title">This feature is currently under construction.</h2>
+      <p>Ticket registration and secure donation processing will be added in the next stage of the charity events platform.</p>
+      <button class="button button-dark button-full" type="submit">Got it</button>
+    </form>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div class="footer-brand">
+        <img src="assets/common-ground-mark.svg" alt="" width="44" height="44">
+        <h2>Common Ground Collective</h2>
+        <p>Small acts. Shared city.</p>
+      </div>
+      <div><h3>Explore</h3><a href="index.html">Home</a><a href="search.html">Find an event</a><a href="index.html#impact">Our impact</a></div>
+      <div><h3>Contact</h3><a href="mailto:hello@commonground.org.au">hello@commonground.org.au</a><a href="tel:+61255500142">+61 2 5550 0142</a><p>Gadigal Country, Sydney NSW</p></div>
+      <div class="footer-note"><p>This website was created for the PROG2002 Assessment 2 case study. Events and contact details are fictional.</p><p>© <span data-current-year></span> Common Ground Collective.</p></div>
+    </div>
+  </footer>
+</body>
+</html>
