@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Discover upcoming charity events across Sydney and support local people through Common Ground Collective.">
+  <title>Common Ground Collective | Charity events with local impact</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/config.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/layout.js" defer></script>
+  <script src="js/home.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="site-alert" role="status" aria-live="polite" data-site-alert hidden></div>
+
+  <header class="site-header" data-site-header>
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="Common Ground Collective home">
+        <img src="assets/common-ground-mark.svg" alt="" width="44" height="44">
+        <span class="brand-copy"><strong>Common Ground</strong><small>Collective</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+        <span class="nav-toggle-label">Menu</span>
+        <span class="nav-toggle-icon" aria-hidden="true"><i></i><i></i></span>
+      </button>
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation" data-primary-nav>
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="search.html">Find an event</a>
+        <a href="index.html#impact">Our impact</a>
+        <a href="index.html#how-it-works">How it works</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="home-hero">
+      <div class="hero-grid-lines" aria-hidden="true"></div>
+      <div class="shell hero-layout">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="eyebrow-dot"></span>Sydney · 2026 giving season</p>
+          <h1>Show up for the city <em>we share.</em></h1>
+          <p class="hero-lede">Find a run, dinner, gig or hands-on community event doing practical good across Sydney. Bring your people. We will show you where the support goes.</p>
+          <div class="button-row">
+            <a class="button button-primary" href="#impact">Explore events <span aria-hidden="true">↘</span></a>
+            <a class="button button-quiet" href="search.html">Search by date or suburb</a>
+          </div>
+          <dl class="hero-proof" aria-label="Common Ground at a glance">
+            <div><dt data-upcoming-count>—</dt><dd>upcoming events</dd></div>
+            <div><dt>5</dt><dd>local cause areas</dd></div>
+            <div><dt>100%</dt><dd>funds traced to programs</dd></div>
+          </dl>
+        </div>
+
+        <div class="city-thread reveal reveal-delay" aria-labelledby="city-thread-title">
+          <div class="thread-heading">
+            <div>
+              <p class="kicker">The city thread</p>
+              <h2 id="city-thread-title">What is happening next</h2>
+            </div>
+            <span class="live-pill"><i aria-hidden="true"></i>Live from API</span>
+          </div>
+          <div class="thread-line" data-city-thread aria-live="polite">
+            <div class="thread-skeleton"><span></span><span></span><span></span></div>
+          </div>
+          <div class="thread-footer">
+            <p>Every marker is a real event from the charity events database.</p>
+            <a href="search.html">View all events <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="impact-strip" aria-label="Current fundraising snapshot">
+      <div class="shell impact-strip-inner">
+        <div class="impact-amount">
+          <span class="amount-mark" aria-hidden="true">$</span>
+          <div><strong data-raised-total>—</strong><span>raised across upcoming events</span></div>
+        </div>
+        <div class="impact-note">
+          <span class="pulse-ring" aria-hidden="true"></span>
+          <p><strong>Progress is public.</strong> Goal and fundraising figures are read live from the event database.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mission-section section" id="about">
+      <div class="shell split-heading">
+        <div>
+          <p class="eyebrow">Why Common Ground</p>
+          <h2>Local problems need <em>local momentum.</em></h2>
+        </div>
+        <p class="section-intro">We connect the energy of a great event with the consistency of local programs. That means fewer one-off gestures and more useful, lasting support.</p>
+      </div>
+      <div class="shell cause-grid">
+        <article class="cause-card cause-card-orange">
+          <span class="cause-number">01</span>
+          <div class="cause-icon" aria-hidden="true">⌂</div>
+          <h3>Safe housing</h3>
+          <p>Emergency accommodation, case support and practical help for people facing housing insecurity.</p>
+        </article>
+        <article class="cause-card cause-card-teal">
+          <span class="cause-number">02</span>
+          <div class="cause-icon" aria-hidden="true">◒</div>
+          <h3>Food security</h3>
+          <p>Fresh meal packs and dependable food relief for families across Greater Sydney.</p>
+        </article>
+        <article class="cause-card cause-card-gold">
+          <span class="cause-number">03</span>
+          <div class="cause-icon" aria-hidden="true">↗</div>
+          <h3>Youth opportunity</h3>
+          <p>Mentoring, creative programs and paid pathways into first jobs.</p>
+        </article>
+        <article class="cause-card cause-card-blue">
+          <span class="cause-number">04</span>
+          <div class="cause-icon" aria-hidden="true">≋</div>
+          <h3>Coastal care</h3>
+          <p>Cleaner waterways, restored habitat and practical environmental education.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="events-section section" id="impact">
+      <div class="shell events-heading">
+        <div>
+          <p class="eyebrow">Upcoming with heart</p>
+          <h2>Choose the moment <em>that moves you.</em></h2>
+        </div>
+        <p class="section-intro">These are the next published events, loaded directly from the REST API. Suspended and cancelled events never appear here.</p>
+      </div>
+      <div class="shell">
+        <div class="event-grid" data-home-events aria-live="polite">
+          <article class="event-card event-card-skeleton"></article>
+          <article class="event-card event-card-skeleton"></article>
+          <article class="event-card event-card-skeleton"></article>
+        </div>
+        <div class="section-action">
+          <a class="text-link text-link-large" href="search.html">Search the full event calendar <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="clarity-section section" id="how-it-works">
+      <div class="shell clarity-layout">
+        <div class="clarity-copy">
+          <p class="eyebrow">Give with clarity</p>
+          <h2>Good intentions deserve <em>good evidence.</em></h2>
+          <p>Each event has a defined purpose, fundraising target and progress figure. You can see what is being funded before you decide to take part.</p>
+          <a class="button button-dark" href="search.html">Find an event near you</a>
+        </div>
+        <ol class="clarity-steps">
+          <li><span>01</span><div><strong>Choose an event</strong><p>Filter by date, suburb or category.</p></div></li>
+          <li><span>02</span><div><strong>See the target</strong><p>Compare the goal with funds raised so far.</p></div></li>
+          <li><span>03</span><div><strong>Join the effort</strong><p>Register, attend and keep the work moving.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="closing-cta">
+      <div class="shell closing-cta-inner">
+        <p class="eyebrow eyebrow-light">Your next good thing</p>
+        <h2>One city. Many ways<br>to make a difference.</h2>
+        <a class="button button-light" href="search.html">Browse charity events <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="closing-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div class="footer-brand">
+        <img src="assets/common-ground-mark.svg" alt="" width="44" height="44">
+        <h2>Common Ground Collective</h2>
+        <p>Small acts. Shared city.</p>
+      </div>
+      <div><h3>Explore</h3><a href="index.html">Home</a><a href="search.html">Find an event</a><a href="index.html#impact">Our impact</a></div>
+      <div><h3>Contact</h3><a href="mailto:hello@commonground.org.au">hello@commonground.org.au</a><a href="tel:+61255500142">+61 2 5550 0142</a><p>Gadigal Country, Sydney NSW</p></div>
+      <div class="footer-note"><p>This website was created for the PROG2002 Assessment 2 case study. Events and contact details are fictional.</p><p>© <span data-current-year></span> Common Ground Collective.</p></div>
+    </div>
+  </footer>
+</body>
+</html>
