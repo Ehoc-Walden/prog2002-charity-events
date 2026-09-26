@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# environment and secrets
+.env
+.env.local
+
+# logs and coverage
+npm-debug.log*
+coverage/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# local setup helper (not part of the submission)
+build-github-history.ps1
+
+# assessment archives (uploaded to Blackboard, not needed in the repo)
+usernameA2-clientside.zip
+usernameA2-api.zip
