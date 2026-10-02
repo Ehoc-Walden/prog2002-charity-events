@@ -4,7 +4,7 @@
 
 This repository contains the complete submission for Assessment 2: the database scripts, the REST API, the client-side website, the automated tests and the supporting documentation.
 
-> **AngularJS is deliberately not used.** The client is written in plain HTML, CSS and JavaScript, and manipulates the page through the DOM APIs exactly as the brief requires.
+> **Latest compliance rule:** no CSS or JavaScript framework is used. The client is written in plain HTML, CSS and JavaScript, and manipulates the page through the DOM APIs exactly as the brief requires. Express is used only for the server-side JSON API; there is no view engine, no `res.render()` and no EJS, Pug or Handlebars templating.
 
 ---
 
@@ -14,7 +14,7 @@ This repository contains the complete submission for Assessment 2: the database 
 | --- | --- |
 | `api/` | NodeJS + ExpressJS REST API, MySQL connection file, SQL schema and seed data, automated tests. |
 | `clientside/` | The three-page website (Home, Search, Event detail) — static HTML, CSS and vanilla JavaScript. |
-| `docs/` | Project report (DOCX), this guide set, the video script and the submission checklist. |
+| `docs/` | Authoritative report `PROG2002_A2_Report_Template.docx`, framework-compliance audit, this guide set, the video script and the submission checklist. |
 | `scripts/` | Helper script that generates the SVG cover art used by the client. |
 
 The two archives required by the brief are produced from this folder:
@@ -39,10 +39,14 @@ The two archives required by the brief are produced from this folder:
 
 From the project root:
 
-```bash
-mysql -u root -p < api/database/schema.sql
-mysql -u root -p < api/database/seed.sql
+```powershell
+$root = (Get-Location).Path
+$mysql = "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe"
+& $mysql -u root -p -e "SOURCE $($root -replace '\\','/')/api/database/schema.sql;"
+& $mysql -u root -p -e "SOURCE $($root -replace '\\','/')/api/database/seed.sql;"
 ```
+
+> PowerShell does not accept `<` as input redirection. `SOURCE` is the equivalent command and works on Windows. If MySQL is installed elsewhere, change the `$mysql` path.
 
 * `schema.sql` drops and recreates the `charityevents_db` database, then creates the five tables (`organisations`, `categories`, `venues`, `events`, `event_highlights`) with primary keys, foreign keys, `CHECK` constraints and indexes.
 * `seed.sql` loads the sample data: **4 organisations, 8 categories, 10 venues, 12 events and 33 event highlights**. The data deliberately includes *past*, *upcoming*, *free*, *paid* and one *suspended* event so every client-side rule can be demonstrated.
@@ -141,14 +145,14 @@ Base URL: `http://localhost:3000/api`
 | `location` | string | Suburb name; matched to the venue. |
 | `category` | string, repeatable | Category **slug**; repeat the parameter for multiple categories, which are combined with **OR**. |
 | `scope` | `upcoming` \| `past` \| `all` | Defaults to `upcoming` (today or later). |
-| `sort` | `date_asc` \| `date_desc` \| `price_asc` \| `price_desc` \| `title_asc` | Defaults to `date_asc`. |
+| `sort` | `date_asc` \| `date_desc` \| `raised_desc` \| `goal_desc` | Defaults to `date_asc`. |
 | `page` | integer ≥ 1 | Defaults to 1. |
 | `limit` | integer 1–50 | Defaults to 12. |
 
 Example:
 
 ```
-/api/events/search?date=2026-11-07&location=Surry%20Hills&category=arts-culture&category=community&scope=upcoming&sort=price_asc&page=1&limit=12
+/api/events/search?date=2026-11-07&location=Surry%20Hills&category=arts-culture&category=community&scope=upcoming&sort=raised_desc&page=1&limit=12
 ```
 
 ### Response shape
@@ -246,15 +250,17 @@ The API and client were also verified with two harnesses during development (15/
 
 ---
 
-## 8. Before you submit (placeholders to replace)
+## 8. Before you submit (one link to add)
 
-The report ships with three placeholders that require your personal details. These are highlighted in orange on the cover page and in Appendix D:
+The authoritative report is `docs/PROG2002_A2_Report_Template.docx`. Its cover page already contains the student details and the GitHub repository link. The only remaining placeholder is the **video share link**:
 
-1. `[Your full name]` and `[Your student ID]` on the report cover page.
-2. The **GitHub repository link** — followed by `docs/github-guide.md` to create and protect the repository.
-3. The **video share link** — record using `docs/demo-video-script.md`, upload to SCU OneDrive, then paste the link.
+1. Record using `docs/demo-video-script.md`, keeping the video under fifteen minutes and demonstrating the search validation and Register dialog.
+2. Upload the MP4 to SCU OneDrive and share it as **Anyone with the link can view**.
+3. Paste the link over `[Paste the SCU OneDrive share link before submission]` in the report cover, then re-open the report and verify it.
 
-Work through `docs/submission-checklist.md` before uploading, and note that the brief requires no write endpoints, no AngularJS, and the exact archives `usernameA2-clientside.zip` and `usernameA2-api.zip`.
+Also confirm the GitHub repository is private and that the marker has been invited as a collaborator if the unit requires that step. Work through `docs/submission-checklist.md` before uploading.
+
+The project has been audited against the latest rule: **no CSS or JavaScript framework, Express server-side only, and no Express view engine or templating**. See `docs/framework-compliance-audit.md` and Appendix D of the report. The previous report filename was removed from the working tree so that only the new-template version can be submitted.
 
 ---
 

@@ -213,6 +213,6 @@ Before submitting the link, check every item below.
 | 4 | No `node_modules` or `.env` committed | `git ls-files | findstr /i "node_modules .env"` returns nothing (except `.env.example`). |
 | 5 | Every commit message explains the change | Read `git log` top to bottom. |
 | 6 | The link resolves on the default branch | Open the repository home page and confirm the files render. |
-| 7 | The link is copied into the report cover page | Replace `[Paste your private GitHub link here]`. |
+| 7 | The link is present on the report cover page | Confirm the URL matches the private repository. |
 
-Paste the final URL into the submission and into the cover page of `docs/PROG2002_A2_Project_Report.docx`.
+The cover page of `docs/PROG2002_A2_Report_Template.docx` already contains the URL. Paste the same URL into the submission form and confirm it opens for an authorised reviewer.

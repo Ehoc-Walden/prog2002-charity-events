@@ -161,10 +161,10 @@ http://localhost:3000/api/events/11
 
 2. **Search page — date filter.**
    > "On the search page I have three criteria: a date, a location, and a multi-select list of categories."
-   *Enter a future date and submit.* "Filtering by date returns only events starting that day."
+   *Choose a future day, month and year, then submit.* "Filtering by date returns only events starting that day."
 
 3. **Search page — validation.**
-   *Switch the scope back to Upcoming, enter a date in the past, submit.*
+   *Switch the scope back to Upcoming, choose a day, month and year in the past, then submit.*
    > "Because I'm searching upcoming events, a past date is rejected. The message is written into the DOM next to the field, the field is marked `aria-invalid`, and no request is sent — this is client-side validation, not just a server error."
 
 4. **Search page — location.**
@@ -244,7 +244,7 @@ http://localhost:3000/api/events/11
 7. Copy the link and open it in a private/incognito window to confirm it plays without prompting for a sign-in.
 8. Paste the link into:
    * the submission form, and
-   * the **video link** placeholder on the cover page of `docs/PROG2002_A2_Project_Report.docx`.
+   * the **video link** placeholder on the cover page of `docs/PROG2002_A2_Report_Template.docx`.
 
 ### If the video will not play for the marker
 
