@@ -113,7 +113,9 @@ In a second terminal, serve the `clientside` folder on **port 5500** (this match
 
 ```bash
 cd clientside
-npx --yes serve -l 5500 .          # or: python -m http.server 5500
+py -m http.server 5500                # Windows
+# or: python -m http.server 5500      # macOS/Linux, or Windows with Python on PATH
+# or: npx --yes serve -l 5500 .       # alternative if Node.js is available
 ```
 
 Then open <http://localhost:5500/index.html>.
