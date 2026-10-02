@@ -234,6 +234,11 @@ input[type="date"]:focus, select:focus, .text-input:focus { outline: none; borde
 input[aria-invalid="true"], select[aria-invalid="true"] { border-color: var(--orange-dark); box-shadow: 0 0 0 3px rgba(255,90,54,.16); }
 .field-hint { margin: 7px 0 0; color: var(--muted); font-size: .76rem; line-height: 1.45; }
 .field-error { margin: 7px 0 0; color: var(--orange-dark); font-size: .78rem; font-weight: 700; }
+/* Date selects: always English labels, independent of the browser UI locale. */
+.date-fieldset { padding: 0; border: 0; margin: 0 0 22px; min-inline-size: 0; }
+.date-selects { display: grid; grid-template-columns: 78px minmax(0,1fr) 92px; gap: 8px; }
+.date-select label { margin-bottom: 5px; color: var(--muted); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; }
+.date-selects select { min-height: 46px; padding: 10px 30px 10px 10px; }
 .category-fieldset { padding: 0; margin: 0 0 22px; border: 0; }
 .category-options { display: grid; gap: 7px; }
 .category-option { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 5px; background: var(--paper); cursor: pointer; transition: border-color .2s ease, background-color .2s ease; }
@@ -387,6 +392,8 @@ input[aria-invalid="true"], select[aria-invalid="true"] { border-color: var(--or
   .thread-event > span { display: none; }
   .thread-footer { flex-direction: column; gap: 12px; }
   .filter-panel, .registration-card, .progress-card, .event-info-card { padding: 20px; }
+  .date-selects { grid-template-columns: 78px minmax(0,1fr); }
+  .date-select-year { grid-column: 1 / -1; }
   .results-heading { flex-direction: column; align-items: flex-start; gap: 8px; }
   .event-quick-facts { grid-template-columns: 1fr; gap: 14px; }
   .organiser-block { flex-direction: column; align-items: flex-start; }

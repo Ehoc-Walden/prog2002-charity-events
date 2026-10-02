@@ -16,7 +16,10 @@
 
   function cacheElements() {
     elements.form = U.querySelector('#event-search-form');
-    elements.date = U.querySelector('#event-date');
+    elements.date = U.querySelector('#event-date-value');
+    elements.dateDay = U.querySelector('#event-date-day');
+    elements.dateMonth = U.querySelector('#event-date-month');
+    elements.dateYear = U.querySelector('#event-date-year');
     elements.scope = U.querySelector('#event-scope');
     elements.location = U.querySelector('#event-location');
     elements.categoryOptions = U.querySelector('#category-options');
@@ -27,6 +30,107 @@
     elements.error = U.querySelector('#search-error');
     elements.activeFilters = U.querySelector('#active-filters');
     elements.emptyState = U.querySelector('#empty-state');
+  }
+
+  /* ---------------- Date selects ---------------- */
+
+  function dateParts() {
+    return {
+      year: elements.dateYear ? elements.dateYear.value : '',
+      month: elements.dateMonth ? elements.dateMonth.value : '',
+      day: elements.dateDay ? elements.dateDay.value : ''
+    };
+  }
+
+  function filledDateParts() {
+    var parts = dateParts();
+    return [parts.year, parts.month, parts.day].filter(Boolean).length;
+  }
+
+  function isDatePartial() {
+    var filled = filledDateParts();
+    return filled > 0 && filled < 3;
+  }
+
+  function daysInMonth(year, month) {
+    if (!month) return 31;
+    var y = year ? Number(year) : 2000;
+    return new Date(y, Number(month), 0).getDate();
+  }
+
+  function rebuildDayOptions() {
+    if (!elements.dateDay) return;
+    var parts = dateParts();
+    var total = daysInMonth(parts.year, parts.month);
+    var selected = Number(parts.day) || 0;
+    if (selected > total) selected = 0;
+    var options = ['<option value="">Day</option>'];
+    for (var d = 1; d <= total; d++) {
+      var value = String(d).padStart(2, '0');
+      options.push('<option value="' + value + '">' + d + '</option>');
+    }
+    elements.dateDay.innerHTML = options.join('');
+    if (selected) elements.dateDay.value = String(selected).padStart(2, '0');
+  }
+
+  function rebuildYearOptions(scope) {
+    if (!elements.dateYear) return;
+    var currentYear = new Date().getFullYear();
+    var minYear = currentYear - 10;
+    var maxYear = currentYear + 2;
+    if ((scope || 'upcoming') === 'upcoming') minYear = currentYear;
+    if ((scope || 'upcoming') === 'past') maxYear = currentYear;
+    var selected = elements.dateYear.value;
+    var options = ['<option value="">Year</option>'];
+    for (var y = maxYear; y >= minYear; y--) {
+      options.push('<option value="' + y + '">' + y + '</option>');
+    }
+    elements.dateYear.innerHTML = options.join('');
+    if (selected && Number(selected) >= minYear && Number(selected) <= maxYear) {
+      elements.dateYear.value = selected;
+    }
+  }
+
+  function updateDateValue() {
+    if (!elements.date) return;
+    var parts = dateParts();
+    if (parts.year && parts.month && parts.day) {
+      var y = Number(parts.year);
+      var m = Number(parts.month);
+      var d = Number(parts.day);
+      var candidate = new Date(y, m - 1, d);
+      if (candidate.getFullYear() === y && candidate.getMonth() === m - 1 && candidate.getDate() === d) {
+        elements.date.value = parts.year + '-' + parts.month + '-' + parts.day;
+        return;
+      }
+    }
+    elements.date.value = '';
+  }
+
+  function datePartList() {
+    return [elements.dateDay, elements.dateMonth, elements.dateYear].filter(Boolean);
+  }
+
+  function setDateValue(value) {
+    var year = '';
+    var month = '';
+    var day = '';
+    if (value && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      year = value.slice(0, 4);
+      month = value.slice(5, 7);
+      day = value.slice(8, 10);
+    }
+    if (elements.dateYear) elements.dateYear.value = year;
+    if (elements.dateMonth) elements.dateMonth.value = month;
+    rebuildDayOptions();
+    if (elements.dateDay) elements.dateDay.value = day;
+    updateDateValue();
+  }
+
+  function syncDateBounds(scope) {
+    rebuildYearOptions(scope);
+    rebuildDayOptions();
+    updateDateValue();
   }
 
   /* ---------------- Validation ---------------- */
@@ -41,6 +145,9 @@
   function clearFieldError(input) {
     if (!input) return;
     input.removeAttribute('aria-invalid');
+    if (input === elements.date) {
+      datePartList().forEach(function (part) { part.removeAttribute('aria-invalid'); });
+    }
     var message = input.parentElement && input.parentElement.querySelector('.field-error');
     if (!message && input.closest('.field-group')) message = input.closest('.field-group').querySelector('.field-error');
     if (message) message.remove();
@@ -49,6 +156,9 @@
   function showFieldError(input, text) {
     clearFieldError(input);
     input.setAttribute('aria-invalid', 'true');
+    if (input === elements.date) {
+      datePartList().forEach(function (part) { part.setAttribute('aria-invalid', 'true'); });
+    }
     var target = input.closest('.field-group') || input.parentElement;
     var node = document.createElement('p');
     node.className = 'field-error';
@@ -60,6 +170,12 @@
     var errors = [];
     var scope = filters.scope || 'upcoming';
     clearFieldError(elements.date);
+
+    if (isDatePartial()) {
+      showFieldError(elements.date, 'Choose a day, month and year, or clear all three date fields.');
+      errors.push('Event date is incomplete.');
+      return errors;
+    }
 
     if (filters.date) {
       var today = localDateString(new Date());
@@ -105,14 +221,14 @@
   }
 
   function applyFiltersToForm(filters) {
-    elements.date.value = filters.date || '';
+    if (elements.scope) elements.scope.value = filters.scope || 'upcoming';
+    syncDateBounds(elements.scope ? elements.scope.value : 'upcoming');
+    setDateValue(filters.date || '');
     elements.location.value = filters.location || '';
     elements.sort.value = filters.sort || 'date_asc';
-    if (elements.scope) elements.scope.value = filters.scope || 'upcoming';
     U.querySelectorAll('input[name="category"]', elements.categoryOptions).forEach(function (input) {
       input.checked = (filters.categories || []).indexOf(input.value) !== -1;
     });
-    syncDateBounds(filters.scope || 'upcoming');
   }
 
   function readFiltersFromUrl() {
@@ -305,19 +421,13 @@
   /* ---------------- Wiring ---------------- */
 
   /**
-   * Upcoming searches only accept today or later, while past and all-event
-   * searches must be free to pick any historical date.
+   * The day/month/year selects are rebuilt for each time range so the year
+   * list stays relevant. Range errors are still reported by validate().
    */
   function syncDateBounds(scope) {
-    if ((scope || 'upcoming') === 'upcoming') {
-      elements.date.min = localDateString(new Date());
-      var max = new Date();
-      max.setMonth(max.getMonth() + 24);
-      elements.date.max = localDateString(max);
-    } else {
-      elements.date.removeAttribute('min');
-      elements.date.removeAttribute('max');
-    }
+    rebuildYearOptions(scope);
+    rebuildDayOptions();
+    updateDateValue();
   }
 
   function init() {
@@ -358,11 +468,20 @@
       if (button) removeFilter(button.getAttribute('data-remove'), button.getAttribute('data-value'));
     });
 
-    elements.date.addEventListener('change', function () { clearFieldError(elements.date); clearError(); });
+    [elements.dateDay, elements.dateMonth, elements.dateYear].forEach(function (part) {
+      if (!part) return;
+      part.addEventListener('change', function () {
+        if (part === elements.dateMonth || part === elements.dateYear) rebuildDayOptions();
+        updateDateValue();
+        clearFieldError(elements.date);
+        clearError();
+      });
+    });
 
     if (elements.scope) {
       elements.scope.addEventListener('change', function () {
         syncDateBounds(elements.scope.value);
+        if (elements.dateYear && !elements.dateYear.value) setDateValue('');
         clearFieldError(elements.date);
         clearError();
       });
