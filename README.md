@@ -14,7 +14,7 @@ This repository contains the complete submission for Assessment 2: the database 
 | --- | --- |
 | `api/` | NodeJS + ExpressJS REST API, MySQL connection file, SQL schema and seed data, automated tests. |
 | `clientside/` | The three-page website (Home, Search, Event detail) — static HTML, CSS and vanilla JavaScript. |
-| `docs/` | Authoritative report `PROG2002_A2_Report_Template.docx`, framework-compliance audit, this guide set, the video script and the submission checklist. |
+| `docs/` | Authoritative final report `PROG2002_A2_Report_Zhiming_Wei.docx`. |
 | `scripts/` | Helper script that generates the SVG cover art used by the client. |
 
 The two archives required by the brief are produced from this folder:
@@ -248,17 +248,17 @@ The API and client were also verified with two harnesses during development (15/
 
 ---
 
-## 8. Before you submit (one link to add)
+## 8. Final submission checks
 
-The authoritative report is `docs/PROG2002_A2_Report_Template.docx`. Its cover page already contains the student details and the GitHub repository link. The only remaining placeholder is the **video share link**:
+The authoritative report is `docs/PROG2002_A2_Report_Zhiming_Wei.docx`. Its cover page contains the student details, the GitHub repository link and both the SCU OneDrive and Tencent Meeting video links. No placeholders remain.
 
-1. Record using `docs/demo-video-script.md`, keeping the video under fifteen minutes and demonstrating the search validation and Register dialog.
-2. Upload the MP4 to SCU OneDrive and share it as **Anyone with the link can view**.
-3. Paste the link over `[Paste the SCU OneDrive share link before submission]` in the report cover, then re-open the report and verify it.
+Before submitting, confirm that:
 
-Also confirm the GitHub repository is private and that the marker has been invited as a collaborator if the unit requires that step. Work through `docs/submission-checklist.md` before uploading.
+1. The SCU OneDrive video link opens successfully for someone outside your SCU account.
+2. The GitHub repository is private and the marker has been invited as a collaborator if the unit requires that step.
+3. The final report opens without errors and all screenshots are visible.
 
-The project has been audited against the latest rule: **no CSS or JavaScript framework, Express server-side only, and no Express view engine or templating**. See `docs/framework-compliance-audit.md` and Appendix D of the report. The previous report filename was removed from the working tree so that only the new-template version can be submitted.
+The project has been audited against the latest rule: **no CSS or JavaScript framework, Express server-side only, and no Express view engine or templating**. The report includes the framework compliance evidence in Appendix D.
 
 ---
 
