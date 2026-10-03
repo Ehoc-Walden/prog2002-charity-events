@@ -1,12 +1,10 @@
 'use strict';
 
 const mysql = require('mysql2');
-const dotenv = require('dotenv');
-
-dotenv.config();
+require('./src/config/loadEnv');
 
 if (!process.env.DB_NAME) {
-  console.warn('DB_NAME is not set. Copy .env.example to .env before starting the API.');
+  console.warn('DB_NAME is not set. Check api/.env, which is created automatically from api/.env.example.');
 }
 
 const pool = mysql.createPool({

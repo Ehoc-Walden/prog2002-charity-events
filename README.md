@@ -48,7 +48,7 @@ $mysql = "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe"
 
 > PowerShell does not accept `<` as input redirection. `SOURCE` is the equivalent command and works on Windows. If MySQL is installed elsewhere, change the `$mysql` path.
 
-* `schema.sql` drops and recreates the `charityevents_db` database, then creates the five tables (`organisations`, `categories`, `venues`, `events`, `event_highlights`) with primary keys, foreign keys, `CHECK` constraints and indexes.
+* `schema.sql` drops and recreates the `charityevents_db` database, then creates the five tables (`organisations`, `categories`, `venues`, `events`, `event_highlights`) with primary keys, foreign keys, `CHECK` constraints and indexes. It also creates the read-only `charity_app` MySQL account that the API logs in with, so no manual MySQL user setup is required.
 * `seed.sql` loads the sample data: **4 organisations, 8 categories, 10 venues, 12 events and 33 event highlights**. The data deliberately includes *past*, *upcoming*, *free*, *paid* and one *suspended* event so every client-side rule can be demonstrated.
 
 Verify the load:
@@ -61,35 +61,28 @@ SELECT COUNT(*) FROM categories;  -- 8
 
 ### 3.2 Configure the API
 
-```bash
-cd api
-cp .env.example .env        # Windows: copy .env.example .env
-```
-
-Then edit `.env`:
+No manual configuration is needed. The API creates `api/.env` from `api/.env.example` automatically the first time it starts, using these defaults:
 
 ```ini
 DB_HOST=localhost
 DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_mysql_password
+DB_USER=charity_app
+DB_PASSWORD=change_me
 DB_NAME=charityevents_db
 PORT=3000
 CORS_ORIGINS=http://localhost:5500,http://127.0.0.1:5500
 ```
 
-**About `DB_USER`.** The example file suggests a least-privilege application account called `charity_app`. That account is *not* created by `schema.sql`, so either:
+**About `DB_USER`.** The API logs in as `charity_app`, a least-privilege, read-only account that `schema.sql` creates when it is run as an administrator. Nothing has to be created by hand, and because the API only ever issues `SELECT` statements a read-only grant is sufficient.
 
-* **(a) quickest** — set `DB_USER=root` and `DB_PASSWORD` to your own root password; or
-* **(b) recommended** — create the dedicated account once as an administrator:
+If your MySQL login is not allowed to manage users, only the account block at the end of `schema.sql` reports an error. In that case edit `api/.env` (already created on first run) and use your own login instead:
 
-```sql
-CREATE USER 'charity_app'@'localhost' IDENTIFIED BY 'change_me';
-GRANT SELECT ON charityevents_db.* TO 'charity_app'@'localhost';
-FLUSH PRIVILEGES;
+```ini
+DB_USER=root
+DB_PASSWORD=your_mysql_password
 ```
 
-The API only ever issues `SELECT` statements, so a read-only grant is sufficient and is the more secure choice.
+To use a different port or a different database login, edit `api/.env` and restart the API.
 
 ### 3.3 Install and start the API
 

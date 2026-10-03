@@ -102,3 +102,28 @@ CREATE TABLE event_highlights (
   CONSTRAINT fk_highlights_event FOREIGN KEY (event_id) REFERENCES events (event_id) ON DELETE CASCADE,
   CONSTRAINT uq_event_highlight_order UNIQUE (event_id, display_order)
 ) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------------
+-- Read-only application account used by the API
+-- ---------------------------------------------------------------------------
+-- The API connects with a dedicated, read-only account instead of root, so the
+-- running website can never modify or delete data. Creating the account here
+-- means a freshly downloaded copy runs without any manual MySQL user setup:
+-- the credentials below already match api/.env.example.
+--
+-- These statements need the CREATE USER, ALTER USER and GRANT privileges, so
+-- run this file with an administrative MySQL user (the README uses root). If
+-- your MySQL login is not allowed to manage users, skip this block and set
+-- DB_USER=root plus your own DB_PASSWORD in api/.env instead.
+CREATE USER IF NOT EXISTS 'charity_app'@'localhost' IDENTIFIED BY 'change_me';
+CREATE USER IF NOT EXISTS 'charity_app'@'127.0.0.1' IDENTIFIED BY 'change_me';
+CREATE USER IF NOT EXISTS 'charity_app'@'::1' IDENTIFIED BY 'change_me';
+
+ALTER USER 'charity_app'@'localhost' IDENTIFIED BY 'change_me';
+ALTER USER 'charity_app'@'127.0.0.1' IDENTIFIED BY 'change_me';
+ALTER USER 'charity_app'@'::1' IDENTIFIED BY 'change_me';
+
+GRANT SELECT ON charityevents_db.* TO 'charity_app'@'localhost';
+GRANT SELECT ON charityevents_db.* TO 'charity_app'@'127.0.0.1';
+GRANT SELECT ON charityevents_db.* TO 'charity_app'@'::1';
+FLUSH PRIVILEGES;
