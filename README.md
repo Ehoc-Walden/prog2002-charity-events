@@ -19,8 +19,22 @@ This repository contains the complete submission for Assessment 2: the database 
 
 The two archives required by the brief are produced from this folder:
 
-* `usernameA2-clientside.zip` — the contents of `clientside/` only.
-* `usernameA2-api.zip` — the contents of `api/` only.
+* `Zhiming_WeiA2-clientside.zip` — the contents of `clientside/` only.
+* `Zhiming_WeiA2-api.zip` — the contents of `api/` only.
+
+### 1.1 Running the site from the two archives
+
+If you only have the two zip archives (for example, when marking from Blackboard), first rebuild the folder layout that the rest of this guide assumes. Each archive contains the **contents** of its folder, not the folder itself, so extract them into folders named `api` and `clientside`:
+
+```powershell
+mkdir C:\charity-check
+cd C:\charity-check
+mkdir api, clientside
+Expand-Archive -Path "<downloads>\Zhiming_WeiA2-api.zip"        -DestinationPath .\api
+Expand-Archive -Path "<downloads>\Zhiming_WeiA2-clientside.zip" -DestinationPath .\clientside
+```
+
+Then continue with **section 2**. A copy cloned from the GitHub repository already has this layout, so every command below runs unchanged.
 
 ---
 

@@ -17,7 +17,7 @@ Thumbs.db
 build-github-history.ps1
 
 # assessment archives (uploaded to Blackboard, not needed in the repo)
-usernameA2-clientside.zip
-usernameA2-api.zip
+*A2-clientside.zip
+*A2-api.zip
 # raw report screenshots (already embedded in the report docx)
 jietu/
