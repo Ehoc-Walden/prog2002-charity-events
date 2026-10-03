@@ -236,11 +236,14 @@ The API and client were also verified with two harnesses during development (15/
 | Symptom | Cause and fix |
 | --- | --- |
 | `Unable to connect to MySQL. Check the values in .env.` | Wrong `DB_*` values, MySQL not running, or the database has not been created. Re-run §3.1–3.2. |
-| `DB_NAME is not set` warning | `.env` is missing. Copy `.env.example` to `.env` inside `api/`. |
+| `DB_NAME is not set` warning | `api/.env` is missing. Start the API with `npm start` so it copies `.env.example` to `.env` automatically, or copy the file by hand inside `api/`. |
 | Browser console shows a CORS error | The client is served from a port that is not in `CORS_ORIGINS`. Add the origin and restart the API. |
 | `fetch` fails when opening `index.html` directly | The client was opened from `file://`. Serve it over HTTP (§3.4). |
 | Event list is empty on the home page | The seed data was not loaded, or all seeded events are in the past. Re-run `seed.sql`. |
 | Event 11 shows a 404 on the detail page | Expected — it is the suspended sample event, and the API deliberately excludes non-published events. |
+| `404` for `search.html`/`index.html`, or `FileNotFoundError` in the Python log | The static server was started from the project root. Stop it, `cd clientside`, then run `py -m http.server 5500` again (§3.4). From the root you can also use `py -m http.server 5500 --directory clientside`. |
+| `EADDRINUSE: address already in use :::3000` | The API is already running in another terminal. Reuse that window, or stop it with Ctrl+C before starting a second copy. |
+| `favicon.ico 404` or `ConnectionAbortedError: [WinError 10053]` in the Python log | Harmless noise: the browser requests an icon that does not exist and closes some connections early. It does not affect the site. |
 | `npm test` fails with a spawn error | Run each test file with `node tests/xxx.test.js`; see §6. |
 
 ---
